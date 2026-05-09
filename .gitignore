@@ -36,4 +36,4 @@ server
 
 # include helm-chart
 !manifests/casdoor
-.env.local
+.env
