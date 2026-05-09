@@ -8,7 +8,7 @@ services:
       target: STANDARD
     entrypoint: /bin/sh -c './server --createDatabase=true'
     ports:
-      - "18001:8000"
+      - "38101:8000"
     environment:
       RUNNING_IN_DOCKER: "true"
       CASDOOR_DATA_SOURCE_NAME: ${CASDOOR_DATA_SOURCE_NAME}
