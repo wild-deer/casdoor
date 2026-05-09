@@ -11,6 +11,7 @@ services:
       - "18001:8000"
     environment:
       RUNNING_IN_DOCKER: "true"
+      CASDOOR_DATA_SOURCE_NAME: ${CASDOOR_DATA_SOURCE_NAME}
     volumes:
       - ./conf:/conf/
 

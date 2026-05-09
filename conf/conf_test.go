@@ -31,14 +31,19 @@ func TestGetConfString(t *testing.T) {
 		{"Should be return casbin", "appname", "casbin"},
 		{"Should be return 8000", "httpport", "8000"},
 		{"Should be return  value", "key", "value"},
+		{"Should expand env var", "dsnFromEnv", "dsn-value"},
 	}
 
 	// do some set up job
 
 	os.Setenv("appname", "casbin")
 	os.Setenv("key", "value")
+	os.Setenv("CASDOOR_DATA_SOURCE_NAME", "dsn-value")
 
 	err := web.LoadAppConfig("ini", "app.conf")
+	assert.Nil(t, err)
+
+	err = web.AppConfig.Set("dsnFromEnv", "${CASDOOR_DATA_SOURCE_NAME}")
 	assert.Nil(t, err)
 
 	for _, scenery := range scenarios {

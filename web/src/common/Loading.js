@@ -64,13 +64,12 @@ export const AiDots = ({size = "medium"}) => {
  *                         "small"   – no padding, tiny dots, no tip, for inline / dropdown use
  *   style     object    Extra styles applied to the outer wrapper (useful for absolute positioning).
  */
-const Loading = ({spinning = true, tip, type = "section", style}) => {
+const Loading = ({spinning = true, type = "section", style}) => {
   if (!spinning) {
     return null;
   }
 
   const isPage = type === "page";
-  const isSmall = type === "small";
 
   const wrapperStyle = {
     display: "flex",
@@ -82,20 +81,8 @@ const Loading = ({spinning = true, tip, type = "section", style}) => {
     ...style,
   };
 
-  const tipStyle = {
-    marginTop: 14,
-    fontSize: 13,
-    color: "#94A3B8",
-    letterSpacing: "0.05em",
-    fontWeight: 400,
-    userSelect: "none",
-  };
-
   return (
-    <div style={wrapperStyle}>
-      <AiDots size={isSmall ? "small" : isPage ? "large" : "medium"} />
-      {tip && !isSmall && <div style={tipStyle}>{tip}</div>}
-    </div>
+    <div style={wrapperStyle} />
   );
 };
 

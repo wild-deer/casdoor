@@ -18,6 +18,7 @@ import (
 	_ "embed"
 	"fmt"
 	"os"
+	"regexp"
 	"runtime"
 	"strconv"
 	"strings"
@@ -43,7 +44,7 @@ func init() {
 
 func GetConfigString(key string) string {
 	if value, ok := os.LookupEnv(key); ok {
-		return value
+		return expandEnvVars(value)
 	}
 
 	res, _ := web.AppConfig.String(key)
@@ -56,7 +57,23 @@ func GetConfigString(key string) string {
 		}
 	}
 
-	return res
+	return expandEnvVars(res)
+}
+
+var envVarPattern = regexp.MustCompile(`\$\{([A-Za-z_][A-Za-z0-9_]*)\}`)
+
+func expandEnvVars(s string) string {
+	if !strings.Contains(s, "${") {
+		return s
+	}
+
+	return envVarPattern.ReplaceAllStringFunc(s, func(m string) string {
+		key := m[2 : len(m)-1]
+		if value, ok := os.LookupEnv(key); ok {
+			return value
+		}
+		return m
+	})
 }
 
 func GetConfigBool(key string) bool {
